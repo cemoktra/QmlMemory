@@ -76,6 +76,7 @@ Window {
             anchors.fill: parent
             onClicked: { 
                 game.newGame()
+                popup.visible = false
             }
         }
     }

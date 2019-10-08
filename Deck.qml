@@ -11,7 +11,7 @@ Item {
     {
         var settings = {
             colorFilter: null,
-            colorSpace: 'default',
+            colorSpace: 'fancy-dark',
             clustering: 'k-means',
             quality: 50,
             ultraPrecision: false,
