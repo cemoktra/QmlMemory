@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Game.qml</file>
+        <file>Deck.qml</file>
+        <file>Card.qml</file>
+        <file>cpu.js</file>
+        <file>iwanthue/distances.js</file>
+        <file>iwanthue/helpers.js</file>
+        <file>iwanthue/index.js</file>
+        <file>iwanthue/presets.js</file>
+        <file>iwanthue/rng.js</file>
+    </qresource>        
+</RCC>
