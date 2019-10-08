@@ -1,6 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Layouts 1.1
+import QtGraphicalEffects 1.13
+
 
 Window {
     visible: true
@@ -15,12 +17,18 @@ Window {
 
     Component.onCompleted: {
         game.finished.connect(onFinished)
+        game.signalNextPlayer.connect(onNextPlayer)
     }
 
     function onFinished()
     {
         popuptext.text = game.humanMove ? "Human wins!" : "CPU wins!"
         popup.visible = true
+    }
+
+    function onNextPlayer()
+    {
+        tooltipEffect.visible = false
     }
 
     ColorAnimation { id: coloranim; duration: 200; }
@@ -102,15 +110,57 @@ Window {
                 MouseArea {
                     id: mousearea
                     anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    hoverEnabled: true
                     onClicked: { 
                         if (game.moveEnabled)
                         {
                             cardrect.clickedCard(index)
+
+                            tooltipEffect.colorhex = modelData.cardcolor
+                            tooltipEffect.visible = modelData.isOpen && !modelData.isFound
                         }
+                    }
+
+                    onEntered: {
+                        tooltipEffect.colorhex = modelData.cardcolor
+                        tooltipEffect.visible = modelData.isOpen && !modelData.isFound
+
+                    }
+
+                    onExited: {
+                        tooltipEffect.visible = false
+                    }
+
+                    onPositionChanged: {
+                        effectSource.x = cardlayout.x + cardrect.x + mouse.x - (effectSource.width / 2)
+                        effectSource.y = cardlayout.y + cardrect.y + mouse.y - (effectSource.height / 2)
+                        effectSource.sourceRect = Qt.rect(effectSource.x - cardlayout.x, effectSource.y - cardlayout.y, effectSource.width, effectSource.height)
                     }
                 }
             }
         }
     }
+
+    ShaderEffectSource {
+        id: effectSource
+        sourceItem: cardlayout
+        width: 100
+        height: 20
+        sourceRect: Qt.rect(x,y, 100, 100)
+    }
+
+    Desaturate {
+        property string colorhex;
+        id: tooltipEffect
+        anchors.fill: effectSource
+        source: effectSource
+        desaturation: 0.9
+        visible: false
+        Text {
+            text: parent.colorhex
+            anchors.centerIn: parent
+        }
+    }    
 }
 

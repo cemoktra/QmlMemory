@@ -8,6 +8,6 @@ NormalRandom::NormalRandom(QObject *parent)
 
 bool NormalRandom::pickCorrectCard(double distributionSize)
 {
-    std::normal_distribution<> distributor { 0, 3 * distributionSize };
+    std::normal_distribution<> distributor { 0, 2 * distributionSize };
     return 0 == std::round(distributor(m_rdgen));
 }
