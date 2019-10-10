@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Layouts 1.1
-import QtGraphicalEffects 1.13
+import QtGraphicalEffects 1.12
 
 
 Window {
