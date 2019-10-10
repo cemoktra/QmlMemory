@@ -27,7 +27,7 @@ set(RESOURCES
 if (WIN32)
   set(Qt5_DIR "C:/Qt/5.13.1/mingw73_64/lib/cmake/Qt5")
 endif()
-find_package(Qt5 COMPONENTS Core Quick QuickControls2 REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick REQUIRED)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   add_executable(QmlMemory ${HEADERS} ${SOURCES} ${RESOURCES})
@@ -40,10 +40,12 @@ target_compile_definitions(QmlMemory
 target_link_libraries(QmlMemory
   PRIVATE Qt5::Core Qt5::Quick Qt5::Gui Qt5::Qml Qt5::Network tbb)
 
-add_custom_command(TARGET QmlMemory POST_BUILD 
-  COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Core> ${CMAKE_BINARY_DIR}
-  COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Gui> ${CMAKE_BINARY_DIR}
-  COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Quick> ${CMAKE_BINARY_DIR}
-  COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Qml> ${CMAKE_BINARY_DIR}
-  COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Network> ${CMAKE_BINARY_DIR}
-)  
+if (WIN32)
+  add_custom_command(TARGET QmlMemory POST_BUILD 
+    COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Core> ${CMAKE_BINARY_DIR}
+    COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Gui> ${CMAKE_BINARY_DIR}
+    COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Quick> ${CMAKE_BINARY_DIR}
+    COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Qml> ${CMAKE_BINARY_DIR}
+    COMMAND "${CMAKE_COMMAND}" -E copy $<TARGET_FILE:Qt5::Network> ${CMAKE_BINARY_DIR}
+  )  
+endif()
