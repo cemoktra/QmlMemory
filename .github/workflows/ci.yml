@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        submodules: true
+    - name: install packages
+      run: sudo apt-get install libtbb-dev
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+          version: 5.13.1
+          modules: qtquick qtcore qtgui qtqml qtnetwork
+    - name: configure
+      run: mkdir build && cd build && cmake ..
+    - name: build
+      run: cmake --build build
